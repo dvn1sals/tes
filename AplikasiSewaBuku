@@ -1,0 +1,99 @@
+package org.example;
+
+import java.util.Scanner;
+
+class Buku {
+    String judul;
+    boolean tersedia;
+
+    Buku(String judul) {
+        this.judul = judul;
+        this.tersedia = true;
+    }
+}
+
+public class AplikasiSewaBuku {
+    public static void main(String[] args) {
+        Buku buku1 = new Buku("Java Programming");
+        Buku buku2 = new Buku("Python Basics");
+
+        Buku[] koleksiBuku = {buku1, buku2};
+
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            tampilkanMenu();
+            int pilihan = scanner.nextInt();
+
+            switch (pilihan) {
+                case 1:
+                    tampilkanKoleksi(koleksiBuku);
+                    break;
+                case 2:
+                    pinjamBuku(koleksiBuku, scanner);
+                    break;
+                case 3:
+                    kembalikanBuku(koleksiBuku, scanner);
+                    break;
+                case 0:
+                    System.out.println("Terima kasih! Keluar dari aplikasi.");
+                    System.exit(0);
+                default:
+                    System.out.println("Pilihan tidak valid. Silakan pilih menu yang benar.");
+            }
+        }
+    }
+
+    private static void tampilkanMenu() {
+        System.out.println("=== Aplikasi Sewa Buku ===");
+        System.out.println("1. Tampilkan Koleksi Buku");
+        System.out.println("2. Pinjam Buku");
+        System.out.println("3. Kembalikan Buku");
+        System.out.println("0. Keluar");
+        System.out.print("Pilih menu: ");
+    }
+
+    private static void tampilkanKoleksi(Buku[] koleksiBuku) {
+        System.out.println("Koleksi Buku:");
+        for (Buku buku : koleksiBuku) {
+            System.out.println(buku.judul + " - " + (buku.tersedia ? "Tersedia" : "Tidak Tersedia"));
+        }
+        System.out.println();
+    }
+
+    private static void pinjamBuku(Buku[] koleksiBuku, Scanner scanner) {
+        tampilkanKoleksi(koleksiBuku);
+        System.out.print("Masukkan nomor buku yang ingin dipinjam: ");
+        int nomorBuku = scanner.nextInt();
+
+        if (nomorBuku >= 0 && nomorBuku < koleksiBuku.length) {
+            if (koleksiBuku[nomorBuku].tersedia) {
+                koleksiBuku[nomorBuku].tersedia = false;
+                System.out.println("Anda berhasil meminjam buku " + koleksiBuku[nomorBuku].judul);
+            } else {
+                System.out.println("Maaf, buku tidak tersedia.");
+            }
+        } else {
+            System.out.println("Nomor buku tidak valid.");
+        }
+        System.out.println();
+    }
+
+    private static void kembalikanBuku(Buku[] koleksiBuku, Scanner scanner) {
+        tampilkanKoleksi(koleksiBuku);
+        System.out.print("Masukkan nomor buku yang ingin dikembalikan: ");
+        int nomorBuku = scanner.nextInt();
+
+        if (nomorBuku >= 0 && nomorBuku < koleksiBuku.length) {
+            if (!koleksiBuku[nomorBuku].tersedia) {
+                koleksiBuku[nomorBuku].tersedia = true;
+                System.out.println("Anda berhasil mengembalikan buku " + koleksiBuku[nomorBuku].judul);
+            } else {
+                System.out.println("Maaf, buku belum dipinjam.");
+            }
+        } else {
+            System.out.println("Nomor buku tidak valid.");
+        }
+        System.out.println();
+    }
+}
